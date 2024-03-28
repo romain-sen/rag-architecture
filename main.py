@@ -1,3 +1,10 @@
+"""
+This module is the main entry point for the agent
+
+Example usage:
+    $ python main.py
+"""
+
 import pandas as pd
 
 from llama_index.core.query_engine import PandasQueryEngine
@@ -8,8 +15,6 @@ from prompt import new_prompt, instruction_str, context
 from note_engine import note_engine
 from pdf import countries_engine
 
-from model import Settings
-
 population_df = pd.read_csv("data/population.csv")
 
 population_query_engine = PandasQueryEngine(
@@ -19,7 +24,6 @@ population_query_engine = PandasQueryEngine(
 )
 
 population_query_engine.update_prompts({"pandas_prompt": new_prompt})
-# population_query_engine.query("What is the population of Canada in 2023?")
 
 tools = [
     note_engine,

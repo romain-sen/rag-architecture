@@ -1,7 +1,7 @@
 import os
 from llama_index.core import StorageContext, VectorStoreIndex, load_index_from_storage
 from llama_index.core import SimpleDirectoryReader
-from model import Settings
+from agent.model import Settings
 
 
 def get_index(data, index_name):
@@ -20,8 +20,9 @@ def get_index(data, index_name):
     return index
 
 
-pdf_path = os.path.join("data", "pdfs")
+base_dir = os.path.dirname(os.path.abspath(__file__))
+pdf_path = os.path.join(base_dir, "data", "pdfs")
+
 countries_pdf = SimpleDirectoryReader(pdf_path).load_data()
 countries_index = get_index(countries_pdf, "countries_index")
 countries_engine = countries_index.as_query_engine()
-# canada_engine.query()

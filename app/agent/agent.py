@@ -13,13 +13,10 @@ from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from llama_index.core.schema import NodeWithScore
 
-from agent.prompt import context
-from agent.note_engine import note_engine
 from agent.pdf import countries_engine
 from agent.population import population_query_engine
 
 tools = [
-    note_engine,
     QueryEngineTool(
         query_engine=population_query_engine,
         metadata=ToolMetadata(
@@ -35,6 +32,9 @@ tools = [
         ),
     ),
 ]
+
+context = """Purpose: The primary role of this agent is to assist users by providing accurate
+            information about world population statistics and details about some countries. """
 
 agent = ReActAgent.from_tools(tools=tools, verbose=True, context=context)
 

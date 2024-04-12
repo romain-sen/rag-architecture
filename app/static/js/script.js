@@ -12,9 +12,12 @@ function queryModel() {
       // Vérifiez que la structure de 'data' est celle que vous attendez.
       if (data.response && data.response.response) {
         document.getElementById("response").innerText = data.response.response;
+      } else if (data.response) {
+        document.getElementById("response").innerText = data.response;
       } else {
         // Gérez le cas où la structure de la réponse n'est pas celle attendue.
-        document.getElementById("response").innerText = "Réponse inattendue.";
+        document.getElementById("response").innerText =
+          "Réponse inattendue : " + JSON.stringify(data);
       }
     })
     .catch((error) => {

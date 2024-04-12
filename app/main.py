@@ -1,18 +1,9 @@
 from flask import Flask, request, render_template, jsonify
 import threading
 from agent.agent import agent
-from llama_index.core.base.response.schema import Response
+from llama_index.core.base.response.schema import Response, NodeWithScore
 
 app = Flask(__name__)
-
-
-class NodeWithScore:
-    def to_dict(self):
-        return {
-            "attr1": self.attr1,
-            "attr2": self.attr2,
-            # Ajoutez tous les attributs pertinents ici
-        }
 
 
 @app.route("/")
@@ -33,22 +24,23 @@ def query():
         print(result)
         # Always convert the result to a serializable format before returning.
         if isinstance(result, Response):
-            result = result.response
+            result = dict(
+                response=result.response,
+                source_nodes=[
+                    {"text": sources.node.get_content(), **sources.to_dict()}
+                    for sources in result.source_nodes
+                ],
+                metadata=result.metadata,
+            )
         elif isinstance(result, NodeWithScore):
             # Convert NodeWithScore to dict if necessary.
             result = result.to_dict()
         # Assume 'result' is otherwise serializable; wrap in a dict if it's not.
-        else:  # not isinstance(result, (dict, list, str, int, float)):
+        else:
             print(f"Warning: Unhandled result type: {type(result)}")
             result = str(result)  # Fallback conversion to string as last resort.
 
         return jsonify({"response": result})
-        # return jsonify({"response": str(result)})
-        # # if isinstance(result, NodeWithScore):
-        # #     result_dict = result.to_dict()  # Conversion en dictionnaire
-        # #     return jsonify({"response": result_dict})
-        # # else:
-        # #     return jsonify({"response": result})
 
 
 if __name__ == "__main__":

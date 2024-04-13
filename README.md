@@ -1,25 +1,23 @@
 # Rag-architecture
 
-try of lliama-index to create a rag architecture
+Try of lliama-index to create a rag architecture
 
 ## Usage
 
-```bash
-docker run -d -p 3000:8080 \
--v open-webui:/app/backend/data \
- -e OLLAMA_BASE_URLS="http://ollama-one:11434;http://localhost:5000/query" \
- --name open-webui \
- --restart always \
- ghcr.io/open-webui/open-webui:main
-```
+To run the project, you need to run the server and the client.
+
+To run the server, use the following command:
 
 ```bash
-curl -X POST http://127.0.0.1:5000/query -H "Content-Type: application/json" -d "{\"prompt\":\"How many people live in France and in Canada ?\"}"
-{
-  "response": {
-    "metadata": null,
-    "response": "In France, about 64,756,584 people live and in Canada, approximately 38,781,291 people reside.",
-    "source_nodes": []
-  }
-}
+cd app
+python3 main.py
 ```
+
+To run the web client, use the following command:
+
+```bash
+cd web
+python3 interface.py
+```
+
+When running for the first time the server, it will create indexes for the documents in the `data` folder. This process may take a while, depending on the number of documents. Then, it saves it in the `index` folder.

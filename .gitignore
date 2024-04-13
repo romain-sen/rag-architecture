@@ -161,3 +161,7 @@ cython_debug/
 
 # DS_Store files
 .DS_Store
+
+indexes/
+server/agent/data/pdfs/
+server/agent/data/cours_des_comptes/

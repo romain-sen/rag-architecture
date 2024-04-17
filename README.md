@@ -9,7 +9,7 @@ To run the project, you need to run the server and the client.
 To run the server, use the following command:
 
 ```bash
-cd app
+cd server
 python3 main.py
 ```
 
